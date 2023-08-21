@@ -20,10 +20,10 @@ export default function Sidebar() {
             <div className="sidebarItem">
                 <span className="sidebarTitle">ABOUT ME</span>
                 <img
-                    src=""
+                    src="https://images.pexels.com/photos/11035471/pexels-photo-11035471.jpeg?auto=compress&cs=tinysrgb&w=150"
                     alt=""
                 />
-                <p>Templates are organized by print dimensions.
+                <p>Welcome to the React Blog! This project is a comprehensive web application built using React.
                 </p>
             </div>
 
