@@ -13,16 +13,6 @@ dotenv.config();
 app.use(express.json());
 app.use("/images", express.static(path.join(__dirname, "/images")));
 
-mongoose
-  .connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify:true
-  })
-  .then(console.log("Connected to MongoDB"))
-  .catch((err) => console.log(err));
-
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "images");
@@ -31,6 +21,13 @@ const storage = multer.diskStorage({
     cb(null, req.body.name);
   },
 });
+
+// Connect to MongoDB database
+const PORT = process.env.PORT || 8000;
+mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
+  .catch((err) => console.log(`Error connecting to mongo ${err}`));
+  
 
 const upload = multer({ storage: storage });
 app.post("/api/upload", upload.single("file"), (req, res) => {
@@ -42,6 +39,4 @@ app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
 app.use("/api/categories", categoryRoute);
 
-app.listen("5000", () => {
-  console.log("Backend is running.");
-});
+
